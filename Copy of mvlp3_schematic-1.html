@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MVLP-3 DUAL-FREQ VORTEX — Technical Cross-Section</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600&family=Outfit:wght@300;400;600;700&display=swap');
+  
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  body {
+    background: #0a0c10;
+    color: #e0e4ec;
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 24px;
+  }
+
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7, #ff6b35);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 8px;
+  }
+
+  .header .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #5a6378;
+    letter-spacing: 2px;
+  }
+
+  .diagram-wrapper {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .svg-container {
+    flex: 1 1 720px;
+    max-width: 820px;
+    min-width: 600px;
+    background: radial-gradient(ellipse at center, #111520 0%, #0a0c10 70%);
+    border: 1px solid #1a1f2e;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+  }
+
+  .svg-container svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .legend-panel {
+    flex: 0 0 340px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .layer-card {
+    background: #111520;
+    border: 1px solid #1a1f2e;
+    border-radius: 12px;
+    padding: 16px 18px;
+    transition: all 0.3s ease;
+    cursor: default;
+  }
+
+  .layer-card:hover {
+    border-color: #2a3148;
+    background: #151a28;
+    transform: translateX(4px);
+  }
+
+  .layer-card .layer-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .layer-card .layer-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .layer-card .layer-desc {
+    font-size: 12px;
+    color: #7a8499;
+    line-height: 1.5;
+  }
+
+  .layer-card .layer-tech {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #4a5568;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #1a1f2e;
+  }
+
+  .l1 .layer-num { color: #ff6b35; }
+  .l1 .layer-title { color: #ff8f5e; }
+  .l1 { border-left: 3px solid #ff6b35; }
+
+  .l2 .layer-num { color: #ffd700; }
+  .l2 .layer-title { color: #ffe44d; }
+  .l2 { border-left: 3px solid #ffd700; }
+
+  .l3 .layer-num { color: #00d4ff; }
+  .l3 .layer-title { color: #4de1ff; }
+  .l3 { border-left: 3px solid #00d4ff; }
+
+  .l4 .layer-num { color: #7b2ff7; }
+  .l4 .layer-title { color: #a66dff; }
+  .l4 { border-left: 3px solid #7b2ff7; }
+
+  .l5 .layer-num { color: #00ff88; }
+  .l5 .layer-title { color: #4dffaa; }
+  .l5 { border-left: 3px solid #00ff88; }
+
+  .params-section {
+    margin-top: 32px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .param-box {
+    background: #111520;
+    border: 1px solid #1a1f2e;
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .param-box .param-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: #5a6378;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .param-box .param-value {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #00d4ff, #7b2ff7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .param-box .param-unit {
+    font-size: 12px;
+    color: #5a6378;
+    margin-top: 2px;
+  }
+
+  .notes-section {
+    margin-top: 32px;
+    background: #111520;
+    border: 1px solid #1a1f2e;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .notes-section h3 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #00d4ff;
+    margin-bottom: 12px;
+  }
+
+  .notes-section p {
+    font-size: 13px;
+    line-height: 1.7;
+    color: #7a8499;
+  }
+
+  @keyframes rotate-cw {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes rotate-ccw {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(-360deg); }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 0.7; }
+  }
+
+  @keyframes wave-pulse {
+    0%, 100% { opacity: 0.2; r: 260; }
+    50% { opacity: 0.5; r: 268; }
+  }
+
+  .ring-cw {
+    animation: rotate-cw 8s linear infinite;
+    transform-origin: 400px 340px;
+  }
+
+  .ring-ccw {
+    animation: rotate-ccw 6s linear infinite;
+    transform-origin: 400px 340px;
+  }
+
+  .plasma-pulse {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .wave-ring {
+    animation: wave-pulse 3s ease-in-out infinite;
+  }
+
+  @media (max-width: 1100px) {
+    .diagram-wrapper {
+      flex-direction: column;
+      align-items: center;
+    }
+    .svg-container {
+      min-width: 100%;
+    }
+    .legend-panel {
+      flex: 1 1 100%;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .layer-card {
+      flex: 1 1 45%;
+      min-width: 240px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-container">
+
+  <div class="header">
+    <h1>MVLP-3 &middot; Dual-Freq Vortex Levitator</h1>
+    <div class="subtitle">CROSS-SECTION SCHEMATIC &middot; [Meg@Dev] &middot; v0.1 &middot; 2026-03-08</div>
+  </div>
+
+  <div class="diagram-wrapper">
+
+    <div class="svg-container">
+      <svg viewBox="0 0 800 680" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Gradients -->
+          <radialGradient id="core-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#1a2040"/>
+            <stop offset="100%" stop-color="#0d1020"/>
+          </radialGradient>
+          
+          <radialGradient id="plasma-grad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7b2ff7" stop-opacity="0"/>
+            <stop offset="70%" stop-color="#7b2ff7" stop-opacity="0.15"/>
+            <stop offset="100%" stop-color="#7b2ff7" stop-opacity="0.05"/>
+          </radialGradient>
+
+          <linearGradient id="ring-outer-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ff6b35" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#ff6b35" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#ff6b35" stop-opacity="0.8"/>
+          </linearGradient>
+
+          <linearGradient id="ring-inner-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#ffd700" stop-opacity="0.8"/>
+            <stop offset="50%" stop-color="#ffd700" stop-opacity="0.2"/>
+            <stop offset="100%" stop-color="#ffd700" stop-opacity="0.8"/>
+          </linearGradient>
+
+          <filter id="glow-blue">
+            <feGaussianBlur stdDeviation="4" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="glow-purple">
+            <feGaussianBlur stdDeviation="6" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="glow-green">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <filter id="glow-orange">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge>
+              <feMergeNode in="blur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+
+          <!-- Arrow marker -->
+          <marker id="arrow-blue" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#00d4ff"/>
+          </marker>
+
+          <marker id="arrow-orange" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ff6b35"/>
+          </marker>
+
+          <marker id="arrow-yellow" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#ffd700"/>
+          </marker>
+
+          <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5"
+            markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M 0 0 L 10 5 L 0 10 z" fill="#00ff88"/>
+          </marker>
+
+          <!-- Dashed pattern for acoustic waves -->
+          <pattern id="acoustic-dots" x="0" y="0" width="8" height="8" patternUnits="userSpaceOnUse">
+            <circle cx="4" cy="4" r="1" fill="#00d4ff" opacity="0.3"/>
+          </pattern>
+        </defs>
+
+        <!-- === LAYER 5: OUTER PLASMA/CAVITATION ENVELOPE === -->
+        <!-- Outermost atmospheric modification zone -->
+        <ellipse cx="400" cy="340" rx="370" ry="290" fill="none" stroke="#00ff88" stroke-opacity="0.08" stroke-width="30" class="plasma-pulse"/>
+        <ellipse cx="400" cy="340" rx="355" ry="278" fill="none" stroke="#00ff88" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="4,8"/>
+        <ellipse cx="400" cy="340" rx="385" ry="302" fill="none" stroke="#00ff88" stroke-opacity="0.05" stroke-width="1" stroke-dasharray="4,8"/>
+
+        <!-- Plasma bubble visualization (subtle dots around perimeter) -->
+        <g opacity="0.15">
+          <circle cx="400" cy="52" r="2" fill="#00ff88"/>
+          <circle cx="500" cy="65" r="1.5" fill="#00ff88"/>
+          <circle cx="600" cy="110" r="2" fill="#00ff88"/>
+          <circle cx="690" cy="180" r="1.5" fill="#00ff88"/>
+          <circle cx="740" cy="280" r="2" fill="#00ff88"/>
+          <circle cx="750" cy="360" r="1.5" fill="#00ff88"/>
+          <circle cx="720" cy="450" r="2" fill="#00ff88"/>
+          <circle cx="660" cy="530" r="1.5" fill="#00ff88"/>
+          <circle cx="570" cy="590" r="2" fill="#00ff88"/>
+          <circle cx="460" cy="620" r="1.5" fill="#00ff88"/>
+          <circle cx="340" cy="620" r="2" fill="#00ff88"/>
+          <circle cx="230" cy="590" r="1.5" fill="#00ff88"/>
+          <circle cx="140" cy="530" r="2" fill="#00ff88"/>
+          <circle cx="80" cy="450" r="1.5" fill="#00ff88"/>
+          <circle cx="55" cy="360" r="2" fill="#00ff88"/>
+          <circle cx="60" cy="270" r="1.5" fill="#00ff88"/>
+          <circle cx="110" cy="180" r="2" fill="#00ff88"/>
+          <circle cx="200" cy="110" r="1.5" fill="#00ff88"/>
+          <circle cx="300" cy="65" r="2" fill="#00ff88"/>
+        </g>
+
+        <!-- === LAYER 4: PLASMA ACTUATOR SKIN (DBD) === -->
+        <ellipse cx="400" cy="340" rx="310" ry="240" fill="none" stroke="#7b2ff7" stroke-opacity="0.15" stroke-width="18" class="plasma-pulse" style="animation-delay: -1s;"/>
+        <ellipse cx="400" cy="340" rx="310" ry="240" fill="none" stroke="#7b2ff7" stroke-opacity="0.3" stroke-width="1.5"/>
+        
+        <!-- DBD electrode indicators -->
+        <g filter="url(#glow-purple)" opacity="0.6">
+          <rect x="130" y="250" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-25, 136, 251)"/>
+          <rect x="110" y="310" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-10, 116, 311)"/>
+          <rect x="105" y="370" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(5, 111, 371)"/>
+          <rect x="120" y="430" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(20, 126, 431)"/>
+          <rect x="160" y="490" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(35, 166, 491)"/>
+          
+          <rect x="660" y="250" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(25, 666, 251)"/>
+          <rect x="678" y="310" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(10, 684, 311)"/>
+          <rect x="683" y="370" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-5, 689, 371)"/>
+          <rect x="670" y="430" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-20, 676, 431)"/>
+          <rect x="632" y="490" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-35, 638, 491)"/>
+          
+          <rect x="240" y="130" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-50, 246, 131)"/>
+          <rect x="350" y="108" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-80, 356, 109)"/>
+          <rect x="450" y="108" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(80, 456, 109)"/>
+          <rect x="555" y="130" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(50, 561, 131)"/>
+
+          <rect x="240" y="548" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(50, 246, 549)"/>
+          <rect x="350" y="570" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(80, 356, 571)"/>
+          <rect x="450" y="570" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-80, 456, 571)"/>
+          <rect x="555" y="548" width="12" height="3" rx="1" fill="#a66dff" transform="rotate(-50, 561, 549)"/>
+        </g>
+
+
+        <!-- === LAYER 3: ACOUSTIC VORTEX FIELD === -->
+        <!-- Standing wave pattern - concentric rings -->
+        <ellipse cx="400" cy="340" rx="260" ry="198" fill="none" stroke="#00d4ff" stroke-opacity="0.12" stroke-width="2" class="wave-ring"/>
+        <ellipse cx="400" cy="340" rx="245" ry="186" fill="none" stroke="#00d4ff" stroke-opacity="0.08" stroke-width="1" class="wave-ring" style="animation-delay: -0.5s;"/>
+        <ellipse cx="400" cy="340" rx="275" ry="210" fill="none" stroke="#00d4ff" stroke-opacity="0.08" stroke-width="1" class="wave-ring" style="animation-delay: -1s;"/>
+
+        <!-- Phased array transducers around the torus -->
+        <g filter="url(#glow-blue)" opacity="0.7">
+          <!-- Top array (FU - focused ultrasound) -->
+          <rect x="310" y="148" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+          <rect x="345" y="143" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+          <rect x="380" y="140" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+          <rect x="415" y="140" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+          <rect x="450" y="143" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+          <rect x="485" y="148" width="6" height="14" rx="2" fill="#00d4ff" opacity="0.8"/>
+
+          <!-- Bottom array (FAV - focused acoustic vortex) -->
+          <rect x="310" y="520" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+          <rect x="345" y="525" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+          <rect x="380" y="527" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+          <rect x="415" y="527" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+          <rect x="450" y="525" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+          <rect x="485" y="520" width="6" height="14" rx="2" fill="#4de1ff" opacity="0.6"/>
+
+          <!-- Side arrays -->
+          <rect x="148" y="300" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="145" y="330" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="145" y="360" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="148" y="390" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+
+          <rect x="640" y="300" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="643" y="330" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="643" y="360" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+          <rect x="640" y="390" width="14" height="6" rx="2" fill="#00d4ff" opacity="0.6"/>
+        </g>
+
+
+        <!-- === LAYER 2: COUNTER-ROTATING MAGNETIC RINGS === -->
+        <!-- Outer ring (CW) -->
+        <g class="ring-cw">
+          <ellipse cx="400" cy="340" rx="210" ry="160" fill="none" stroke="url(#ring-outer-grad)" stroke-width="8" stroke-dasharray="20,15"/>
+          <!-- Magnet segments on outer ring -->
+          <circle cx="610" cy="340" r="7" fill="#ff6b35" opacity="0.9"/>
+          <circle cx="190" cy="340" r="7" fill="#ff6b35" opacity="0.9"/>
+          <circle cx="400" cy="180" r="7" fill="#ff6b35" opacity="0.9"/>
+          <circle cx="400" cy="500" r="7" fill="#ff6b35" opacity="0.9"/>
+          <circle cx="545" cy="225" r="6" fill="#ff8f5e" opacity="0.7"/>
+          <circle cx="255" cy="455" r="6" fill="#ff8f5e" opacity="0.7"/>
+          <circle cx="545" cy="455" r="6" fill="#ff8f5e" opacity="0.7"/>
+          <circle cx="255" cy="225" r="6" fill="#ff8f5e" opacity="0.7"/>
+        </g>
+
+        <!-- Inner ring (CCW) -->
+        <g class="ring-ccw">
+          <ellipse cx="400" cy="340" rx="165" ry="125" fill="none" stroke="url(#ring-inner-grad)" stroke-width="6" stroke-dasharray="15,12"/>
+          <!-- Magnet segments on inner ring -->
+          <circle cx="565" cy="340" r="6" fill="#ffd700" opacity="0.9"/>
+          <circle cx="235" cy="340" r="6" fill="#ffd700" opacity="0.9"/>
+          <circle cx="400" cy="215" r="6" fill="#ffd700" opacity="0.9"/>
+          <circle cx="400" cy="465" r="6" fill="#ffd700" opacity="0.9"/>
+          <circle cx="510" cy="260" r="5" fill="#ffe44d" opacity="0.7"/>
+          <circle cx="290" cy="420" r="5" fill="#ffe44d" opacity="0.7"/>
+          <circle cx="510" cy="420" r="5" fill="#ffe44d" opacity="0.7"/>
+          <circle cx="290" cy="260" r="5" fill="#ffe44d" opacity="0.7"/>
+        </g>
+
+
+        <!-- === LAYER 1: TOROIDAL CORE BODY === -->
+        <!-- Main torus cross-section (cutaway view) -->
+        <ellipse cx="400" cy="340" rx="120" ry="90" fill="url(#core-grad)" stroke="#2a3148" stroke-width="2"/>
+        
+        <!-- Internal toroidal cavity (vacuum chamber) -->
+        <ellipse cx="400" cy="340" rx="80" ry="55" fill="none" stroke="#1e2640" stroke-width="1.5" stroke-dasharray="3,3"/>
+        <ellipse cx="400" cy="340" rx="80" ry="55" fill="#0d1020" fill-opacity="0.5"/>
+
+        <!-- Vortex flow arrows inside cavity -->
+        <g opacity="0.5">
+          <!-- Upper flow (CW) -->
+          <path d="M 345 310 Q 400 285 455 310" fill="none" stroke="#ff6b35" stroke-width="1.2" marker-end="url(#arrow-orange)"/>
+          <!-- Lower flow (CCW) -->
+          <path d="M 455 370 Q 400 395 345 370" fill="none" stroke="#ffd700" stroke-width="1.2" marker-end="url(#arrow-yellow)"/>
+          <!-- Left circulation -->
+          <path d="M 335 340 Q 340 310 355 300" fill="none" stroke="#ff8f5e" stroke-width="0.8" marker-end="url(#arrow-orange)"/>
+          <path d="M 335 340 Q 340 370 355 380" fill="none" stroke="#ffe44d" stroke-width="0.8" marker-end="url(#arrow-yellow)"/>
+          <!-- Right circulation -->
+          <path d="M 465 340 Q 460 310 445 300" fill="none" stroke="#ff8f5e" stroke-width="0.8" marker-end="url(#arrow-orange)"/>
+          <path d="M 465 340 Q 460 370 445 380" fill="none" stroke="#ffe44d" stroke-width="0.8" marker-end="url(#arrow-yellow)"/>
+        </g>
+
+        <!-- Payload/module center -->
+        <circle cx="400" cy="340" r="22" fill="#151a28" stroke="#2a3148" stroke-width="1.5"/>
+        <text x="400" y="344" text-anchor="middle" fill="#5a6378" font-family="JetBrains Mono" font-size="8" font-weight="600">CORE</text>
+
+
+        <!-- === ANNOTATIONS === -->
+        <!-- Layer 1 annotation -->
+        <line x1="400" y1="250" x2="400" y2="85" stroke="#ff6b35" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="400" y="78" text-anchor="middle" fill="#ff8f5e" font-family="JetBrains Mono" font-size="9" font-weight="600">L1: TOROIDAL CORE</text>
+
+        <!-- Layer 2 annotation - outer ring -->
+        <line x1="580" y1="220" x2="700" y2="120" stroke="#ff6b35" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="703" y="118" fill="#ff8f5e" font-family="JetBrains Mono" font-size="8">RING A (CW)</text>
+        
+        <!-- Layer 2 annotation - inner ring -->
+        <line x1="530" y1="265" x2="700" y2="140" stroke="#ffd700" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="703" y="150" fill="#ffe44d" font-family="JetBrains Mono" font-size="8">RING B (CCW)</text>
+
+        <!-- Layer 3 annotation -->
+        <line x1="660" y1="340" x2="720" y2="340" stroke="#00d4ff" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="723" y="343" fill="#4de1ff" font-family="JetBrains Mono" font-size="8">L3: ACOUSTIC</text>
+        <text x="723" y="355" fill="#4de1ff" font-family="JetBrains Mono" font-size="8">VORTEX FIELD</text>
+
+        <!-- Layer 4 annotation -->
+        <line x1="693" y1="420" x2="720" y2="440" stroke="#7b2ff7" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="723" y="443" fill="#a66dff" font-family="JetBrains Mono" font-size="8">L4: PLASMA</text>
+        <text x="723" y="455" fill="#a66dff" font-family="JetBrains Mono" font-size="8">DBD ACTUATORS</text>
+
+        <!-- Layer 5 annotation -->
+        <line x1="740" y1="480" x2="730" y2="510" stroke="#00ff88" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5"/>
+        <text x="700" y="525" fill="#4dffaa" font-family="JetBrains Mono" font-size="8">L5: CAVITATION</text>
+        <text x="700" y="537" fill="#4dffaa" font-family="JetBrains Mono" font-size="8">ENVELOPE</text>
+
+        <!-- Rotation arrows -->
+        <g filter="url(#glow-orange)" opacity="0.6">
+          <path d="M 300 170 A 120 90 0 0 1 500 170" fill="none" stroke="#ff6b35" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+          <text x="400" y="165" text-anchor="middle" fill="#ff6b35" font-family="JetBrains Mono" font-size="8" opacity="0.7">ω₁ CW</text>
+        </g>
+
+        <g filter="url(#glow-orange)" opacity="0.6">
+          <path d="M 475 210 A 95 72 0 0 0 325 210" fill="none" stroke="#ffd700" stroke-width="1.5" marker-end="url(#arrow-yellow)"/>
+          <text x="400" y="205" text-anchor="middle" fill="#ffd700" font-family="JetBrains Mono" font-size="8" opacity="0.7">ω₂ CCW</text>
+        </g>
+
+        <!-- FU/FAV labels -->
+        <text x="510" y="155" fill="#00d4ff" font-family="JetBrains Mono" font-size="7" opacity="0.6">FU (40 kHz)</text>
+        <text x="510" y="538" fill="#4de1ff" font-family="JetBrains Mono" font-size="7" opacity="0.6">FAV (vortex)</text>
+        
+        <!-- Pressure ratio -->
+        <text x="400" y="640" text-anchor="middle" fill="#00d4ff" font-family="JetBrains Mono" font-size="9" opacity="0.4">P_FAV / P_FU = 0.69 (stability invariant)</text>
+
+        <!-- Scale bar -->
+        <line x1="50" y1="660" x2="150" y2="660" stroke="#3a4158" stroke-width="1"/>
+        <line x1="50" y1="655" x2="50" y2="665" stroke="#3a4158" stroke-width="1"/>
+        <line x1="150" y1="655" x2="150" y2="665" stroke="#3a4158" stroke-width="1"/>
+        <text x="100" y="655" text-anchor="middle" fill="#4a5568" font-family="JetBrains Mono" font-size="8">~0.5 m</text>
+
+      </svg>
+    </div>
+
+    <div class="legend-panel">
+
+      <div class="layer-card l1">
+        <div class="layer-num">Layer 1</div>
+        <div class="layer-title">Торический корпус</div>
+        <div class="layer-desc">Основное тело аппарата. Вакуумированная тороидальная полость с двумя встречными потоками (газ/плазма). Профилированная внешняя поверхность с LEV-гофрами (биомиметика стрекозы).</div>
+        <div class="layer-tech">CFRP shell · ΔP &lt; 10⁻³ Pa · LEV-corrugated fins</div>
+      </div>
+
+      <div class="layer-card l2">
+        <div class="layer-num">Layer 2</div>
+        <div class="layer-title">Контр-ротирующие магнитные кольца</div>
+        <div class="layer-desc">Два коаксиальных кольца NdFeB (Halbach array). Вращение в противофазе создаёт переменное поле и индуцирует вихревые токи в проводящих элементах корпуса (принцип Alcon). Генерирует электродинамическую подъёмную силу.</div>
+        <div class="layer-tech">Ring A: CW &gt;9000 rpm · Ring B: CCW · NdFeB N52 · Air bearings</div>
+      </div>
+
+      <div class="layer-card l3">
+        <div class="layer-num">Layer 3</div>
+        <div class="layer-title">Акустическое вихревое поле</div>
+        <div class="layer-desc">Фазированная решётка пьезопреобразователей (256+ элементов). Двухчастотный режим: FU (подъём) + FAV (стабилизация). Создаёт акустическую потенциальную яму вокруг аппарата. Инвариант стабильности: P_FAV/P_FU = 0.69.</div>
+        <div class="layer-tech">f₁ = 40 kHz (FU) · f₂ = variable (FAV) · 256-ch phased array</div>
+      </div>
+
+      <div class="layer-card l4">
+        <div class="layer-num">Layer 4</div>
+        <div class="layer-title">Плазменная оболочка (DBD)</div>
+        <div class="layer-desc">Матрица диэлектрических барьерных разрядных актуаторов на поверхности корпуса. Ионизирует пограничный слой воздуха, разрушает турбулентные структуры и снижает вязкостное сопротивление на 40-44%. Энергетически выгодна (ROI 11:1).</div>
+        <div class="layer-tech">DBD plasma actuators · Drag reduction ~44% · Energy gain 11×</div>
+      </div>
+
+      <div class="layer-card l5">
+        <div class="layer-num">Layer 5</div>
+        <div class="layer-title">Кавитационный конверт</div>
+        <div class="layer-desc">Внешний «пузырь» модифицированной среды. Комбинация: плазменно-ионизированный воздух пониженной плотности + акустическое давление. Аналог суперкавитации в воздухе — аппарат движется в собственной «оболочке» с минимальным контактом со средой.</div>
+        <div class="layer-tech">ρ_local &lt; ρ_ambient · Supercavitation analog · Self-generated envelope</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Parameters -->
+  <div class="params-section">
+    <div class="param-box">
+      <div class="param-label">Диаметр тора</div>
+      <div class="param-value">2.0</div>
+      <div class="param-unit">метра (внешний)</div>
+    </div>
+    <div class="param-box">
+      <div class="param-label">Скорость колец</div>
+      <div class="param-value">&gt;9000</div>
+      <div class="param-unit">об/мин (критическая)</div>
+    </div>
+    <div class="param-box">
+      <div class="param-label">Инвариант FU/FAV</div>
+      <div class="param-value">0.69</div>
+      <div class="param-unit">ratio (стабильность)</div>
+    </div>
+    <div class="param-box">
+      <div class="param-label">Снижение drag</div>
+      <div class="param-value">44%</div>
+      <div class="param-unit">DBD plasma (доказано)</div>
+    </div>
+    <div class="param-box">
+      <div class="param-label">Частота FU</div>
+      <div class="param-value">40</div>
+      <div class="param-unit">кГц (фокус. ультразвук)</div>
+    </div>
+    <div class="param-box">
+      <div class="param-label">Энергетика DBD</div>
+      <div class="param-value">11:1</div>
+      <div class="param-unit">ROI (экономия/затраты)</div>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="notes-section">
+    <h3>Принцип работы — 5 уровней</h3>
+    <p>
+      <strong style="color:#ff8f5e">L1 (Core):</strong> Торический корпус с вакуумированной полостью. Внутренние встречные потоки создают базовый гироскопический момент и «торсионную зону» (гипотетическая). Профилированная поверхность с биомиметическими гофрами стрекозы для усиления LEV-эффекта.
+    </p>
+    <p style="margin-top:8px">
+      <strong style="color:#ffe44d">L2 (Rings):</strong> Два Halbach-кольца в противофазе индуцируют вихревые токи в проводящих элементах (алюминий корпуса/подложки). Электродинамическая подъёмная сила — масштабированный принцип Alcon-левитатора (2025). Переменное магнитное поле одновременно служит источником для плазменных актуаторов.
+    </p>
+    <p style="margin-top:8px">
+      <strong style="color:#4de1ff">L3 (Acoustic):</strong> Фазированная решётка генерирует двухчастотное акустическое поле. Фокусированный ультразвук (FU) создаёт вертикальную поддерживающую силу. Фокусированный акустический вихрь (FAV) создаёт «ловушку» — стабилизирует положение аппарата в пространстве. Соотношение давлений 0.69 — экспериментально найденный инвариант.
+    </p>
+    <p style="margin-top:8px">
+      <strong style="color:#a66dff">L4 (Plasma):</strong> Массив DBD-актуаторов на поверхности корпуса. Импульсная ионизация пограничного слоя воздуха разрушает турбулентные структуры, снижая вязкостное сопротивление на 44% (AIAA SciTech 2026). Ключевое: энергетическая выгода 11:1 — система потребляет в 11 раз меньше энергии, чем экономит.
+    </p>
+    <p style="margin-top:8px">
+      <strong style="color:#4dffaa">L5 (Envelope):</strong> Совокупный эффект слоёв L3+L4 формирует зону модифицированной атмосферы вокруг аппарата: пониженная плотность, ионизированная среда, акустическое давление. Аналог суперкавитации: аппарат перемещается внутри собственного «пузыря» с радикально сниженным контактным сопротивлением. В воде суперкавитация даёт снижение drag на 90%+. В воздухе — рубежи пока не определены.
+    </p>
+  </div>
+
+</div>
+
+</body>
+</html>
