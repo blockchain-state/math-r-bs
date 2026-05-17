@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trust Pays Only in the Right Game — Schematic</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0c10;
+    color: #e6e9ef;
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 1200px;
+    background: linear-gradient(135deg, #0d1117 0%, #0a0c10 100%);
+    border: 1px solid #1a1f2e;
+    border-radius: 20px;
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 20%, rgba(123, 47, 247, 0.08) 0%, transparent 40%),
+                radial-gradient(circle at 70% 80%, rgba(0, 212, 255, 0.06) 0%, transparent 40%);
+    pointer-events: none;
+  }
+
+  .header {
+    position: relative;
+    margin-bottom: 44px;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #5a6378;
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: #f3f4f8;
+    margin-bottom: 10px;
+    max-width: 900px;
+  }
+
+  .subtitle {
+    font-size: 15px;
+    font-weight: 400;
+    color: #8a93a8;
+    line-height: 1.5;
+    max-width: 820px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.1fr 1.2fr 1.3fr;
+    gap: 0;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid #1a1f2e;
+    border-bottom: 1px solid #1a1f2e;
+  }
+
+  .col-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #1a1f2e;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 600;
+  }
+
+  .col-header.condition { color: #00d4ff; background: rgba(0, 212, 255, 0.04); }
+  .col-header.violation { color: #ff6b6b; background: rgba(255, 107, 107, 0.05); }
+  .col-header.repair    { color: #4ade80; background: rgba(74, 222, 128, 0.04); }
+
+  .col {
+    border-right: 1px solid #1a1f2e;
+  }
+
+  .col:last-child { border-right: none; }
+
+  .row-cell {
+    padding: 24px;
+    min-height: 112px;
+    border-bottom: 1px solid #14192440;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+
+  .row-cell:last-child { border-bottom: none; }
+
+  .grid > div:nth-child(4),
+  .grid > div:nth-child(5),
+  .grid > div:nth-child(6) { background: rgba(255, 255, 255, 0.012); }
+
+  .grid > div:nth-child(10),
+  .grid > div:nth-child(11),
+  .grid > div:nth-child(12) { background: rgba(255, 255, 255, 0.012); }
+
+  .cell-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #4a5568;
+    margin-bottom: 6px;
+  }
+
+  .cell-title {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 4px;
+  }
+
+  .cell-desc {
+    font-size: 13px;
+    color: #7a8499;
+    line-height: 1.45;
+  }
+
+  .condition-cell .cell-title { color: #7dd8ff; }
+  .violation-cell .cell-title { color: #ff9a9a; }
+  .repair-cell .cell-title    { color: #86efac; }
+
+  .arrow {
+    position: absolute;
+    right: -7px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 14px;
+    height: 14px;
+    z-index: 2;
+    color: #2a3148;
+    opacity: 0.6;
+  }
+
+  .footer {
+    margin-top: 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #4a5568;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .formula {
+    font-size: 13px;
+    color: #7a8499;
+    letter-spacing: 0.5px;
+  }
+
+  .formula span {
+    color: #00d4ff;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .card { padding: 36px 24px; }
+    h1 { font-size: 24px; }
+    .grid { grid-template-columns: 1fr; }
+    .col-header { border-bottom: 1px solid #1a1f2e; }
+    .col { border-right: none; border-bottom: 1px solid #1a1f2e; }
+    .footer { flex-direction: column; gap: 12px; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <div class="eyebrow">Game Theory · Mechanism Design · Coordination</div>
+    <h1>Trust is profitable only in the right game.<br>We are playing the wrong one.</h1>
+    <div class="subtitle">Cooperation fails at scale not because players defect morally, but because the coordination environment violates the four architectural conditions under which reciprocity is stable.</div>
+  </div>
+
+  <div class="grid">
+
+    <!-- Headers -->
+    <div class="col-header condition">Condition for stable cooperation</div>
+    <div class="col-header violation">Structural violation today</div>
+    <div class="col-header repair">Architectural repair</div>
+
+    <!-- Row 1: Iteration -->
+    <div class="row-cell condition-cell">
+      <div class="cell-label">01 / Iteration</div>
+      <div class="cell-title">Shadow of the future</div>
+      <div class="cell-desc">Interactions repeat often enough that defection is costly</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell violation-cell">
+      <div class="cell-label">Collapsed horizon</div>
+      <div class="cell-title">One-shot interactions</div>
+      <div class="cell-desc">Gig workers, drivers, strangers — you never meet the same counterparty twice</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell repair-cell">
+      <div class="cell-label">Fix</div>
+      <div class="cell-title">Persistent trace</div>
+      <div class="cell-desc">Cryptographically verifiable history that travels across platforms and time</div>
+    </div>
+
+    <!-- Row 2: Identifiability -->
+    <div class="row-cell condition-cell">
+      <div class="cell-label">02 / Identifiability</div>
+      <div class="cell-title">Knowing whom to repay</div>
+      <div class="cell-desc">Players can distinguish partners; reciprocity needs an addressable subject</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell violation-cell">
+      <div class="cell-label">Siloed identity</div>
+      <div class="cell-title">Reputation locked in platforms</div>
+      <div class="cell-desc">LinkedIn ≠ Upwork ≠ Uber ≠ academia. No cross-border reputational trade</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell repair-cell">
+      <div class="cell-label">Fix</div>
+      <div class="cell-title">Portable identity</div>
+      <div class="cell-desc">Decentralized identifiers that live above platforms, not inside them</div>
+    </div>
+
+    <!-- Row 3: Memory -->
+    <div class="row-cell condition-cell">
+      <div class="cell-label">03 / Memory</div>
+      <div class="cell-title">Persistent history</div>
+      <div class="cell-desc">Without memory, reciprocity degenerates into random play</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell violation-cell">
+      <div class="cell-label">Forced amnesia</div>
+      <div class="cell-title">Exit = reset</div>
+      <div class="cell-desc">Leave a platform, lose your history. Amnesia as retention mechanism</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell repair-cell">
+      <div class="cell-label">Fix</div>
+      <div class="cell-title">User-owned causal graph</div>
+      <div class="cell-desc">The history of actions and consequences belongs to the participant, not the provider</div>
+    </div>
+
+    <!-- Row 4: Reciprocity -->
+    <div class="row-cell condition-cell">
+      <div class="cell-label">04 / Reciprocity</div>
+      <div class="cell-title">Symmetric sanction</div>
+      <div class="cell-desc">No player can unilaterally rewrite the rules mid-game</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell violation-cell">
+      <div class="cell-label">Sanction asymmetry</div>
+      <div class="cell-title">Calvinball with a valuation</div>
+      <div class="cell-desc">Platforms change the rules. Users absorb the change. One rulebook, one writer</div>
+      <svg class="arrow" viewBox="0 0 14 14" fill="none"><path d="M1 7h12m-5-5l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="row-cell repair-cell">
+      <div class="cell-label">Fix</div>
+      <div class="cell-title">Bounded governance + fork rights</div>
+      <div class="cell-desc">Mathematical caps on influence (e.g. quadratic voting) plus architecturally cheap exit</div>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    <div class="formula">P(cooperation) ≈ <span>(δ · ID · M · R)ⁿ</span> &nbsp;·&nbsp; multiplicative fragility</div>
+    <div>From moral appeal → to mechanism design</div>
+  </div>
+
+</div>
+
+</body>
+</html>
